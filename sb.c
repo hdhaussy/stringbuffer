@@ -3,18 +3,6 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-static inline char* sb_data(sb_t* sb) { return sb->data; }
-static inline size_t sb_size(sb_t* sb) { return sb->size; }
-static inline size_t sb_allocated(sb_t* sb) { return sb->allocated; }
-static inline char sb_ensure_size(sb_t* sb,size_t size) {
-	if(sb->allocated < size) {
-		size_t alloc = 8;
-		while(alloc < size) alloc <<= 1;
-		sb_alloc(sb,alloc);
-	}
-	return sb->allocated >= size;
-}
-
 void sb_init(sb_t* sb) {
 	sb->allocated = 0;
 	sb->size = 0;
@@ -54,30 +42,19 @@ const char* sb_str(sb_t* sb) {
 	return sb->data;
 }
 
-void sb_append_char(sb_t* sb,char c) {
-	if(sb_ensure_size(sb,sb->size+1)) {
-		sb->data[sb->size++] = c;
+void sb_append(sb_t* dest,const sb_t src) {
+	if(sb_ensure_size(dest,dest->size + src.size)) {
+		memcpy(dest->data + dest->size,src.data,src.size);
+		dest->size += src.size;
 	}
 }
 
-void sb_append_str(sb_t* sb,const char* str) {
-	size_t len = strlen(str);
-	if(sb_ensure_size(sb,sb->allocated + len)) {
-		memcpy(sb->data + sb->size,str,len);
-		sb->size += len;
-	}
-}
-
-//  ##########
-//  ##***########
-
-void sb_insert_str(sb_t* sb,size_t pos,const char* str) {
-	if(pos >= sb->size) return sb_append_str(sb,str);
-	size_t len = strlen(str);
-	if(sb_ensure_size(sb,sb->allocated + len)) {
-		if(pos>0) memmove(sb->data + pos + len, sb->data + pos, sb->size - pos);
-		memcpy(sb->data + pos,str,len);
-		sb->size += len;
+void sb_insert(sb_t* dest,size_t pos,const sb_t src) {
+	if(pos >= dest->size) return sb_append(dest,src);
+	if(sb_ensure_size(dest,dest->size + src.size)) {
+		if(pos>0) memmove(dest->data + pos + src.size, dest->data + pos, dest->size - pos);
+		memcpy(dest->data + pos,src.data,src.size);
+		dest->size += src.size;
 	}
 }
 
