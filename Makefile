@@ -1,8 +1,12 @@
 CFLAGS += -g
+EXE=sb_test
 
-all: sb_test
+all: $(EXE)
 
 clean:
-	rm sb_test
+	rm $(EXE)
 
-sb_test: sb.c
+$(EXE): stringbuffer.c
+
+run: $(EXE)
+	./$(EXE)
