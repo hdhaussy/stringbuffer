@@ -71,7 +71,7 @@ void sb_insert(stringbuffer_t* dest,size_t pos,const stringbuffer_t* src) {
 
 void sb_replace(stringbuffer_t* dest,size_t pos,size_t len,const stringbuffer_t* src) {
 	if(sb_ensure_capacity(dest,dest->length - len + src->length)) {
-		memmove(dest->buffer + pos + src->length, dest->buffer + pos + len, dest->length - pos + len);
+		memmove(dest->buffer + pos + src->length, dest->buffer + pos + len, dest->length - pos - len);
 		memcpy(dest->buffer + pos,src->buffer,src->length);
 		dest->length += src->length - len;
 	}
