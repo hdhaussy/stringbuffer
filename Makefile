@@ -8,5 +8,5 @@ clean:
 
 $(EXE): stringbuffer.c
 
-run: $(EXE)
+test: $(EXE)
 	./$(EXE)
