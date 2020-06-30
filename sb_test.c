@@ -1,6 +1,5 @@
 #include "stringbuffer.h"
 #include <stdio.h>
-#include <assert.h>
 
 static int nbtests = 0;
 static int nbfails = 0;
@@ -78,5 +77,5 @@ int main(int argc,char** argv) {
 	RUN_TEST(test_sb_insert);
 	RUN_TEST(test_sb_replace);
 	printf("%d tests passed, %d tests failed.\n",nbtests,nbfails);
-	return 0;
+	return nbfails;
 }
