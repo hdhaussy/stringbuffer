@@ -31,7 +31,8 @@ void sb_copy(stringbuffer_t* dest,const stringbuffer_t* src) {
 }
 
 const char* sb_str(stringbuffer_t* sb) {
-	if(sb_ensure_capacity(sb,sb->length+1))
+	if(sb->capacity==0) return sb->buffer;
+	else if(sb_ensure_capacity(sb,sb->length+1))
 		sb->buffer[sb->length] = 0;
 	else
 		sb->buffer[sb->length - 1] = 0;
@@ -54,9 +55,17 @@ void sb_append_char(stringbuffer_t* dest,const char c) {
 void sb_insert(stringbuffer_t* dest,size_t pos,const stringbuffer_t* src) {
 	if(pos >= dest->length) return sb_append(dest,src);
 	if(sb_ensure_capacity(dest,dest->length + src->length)) {
-		if(pos>0) memmove(dest->buffer + pos + src->length, dest->buffer + pos, dest->length - pos);
+		memmove(dest->buffer + pos + src->length, dest->buffer + pos, dest->length - pos);
 		memcpy(dest->buffer + pos,src->buffer,src->length);
 		dest->length += src->length;
+	}
+}
+
+void sb_replace(stringbuffer_t* dest,size_t pos,size_t len,const stringbuffer_t* src) {
+	if(sb_ensure_capacity(dest,dest->length - len + src->length)) {
+		memmove(dest->buffer + pos + src->length, dest->buffer + pos + len, dest->length - pos + len);
+		memcpy(dest->buffer + pos,src->buffer,src->length);
+		dest->length += src->length - len;
 	}
 }
 

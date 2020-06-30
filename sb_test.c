@@ -21,7 +21,9 @@ void assert_fail(const char* file,int line,const char* test) {
 
 void test_sb_str() {
 	stringbuffer_t sb = SB("abcdefgh");
+	ASSERT(sb_capacity(&sb)==0);
 	ASSERT(strcmp(sb_str(&sb),"abcdefgh")==0);
+	ASSERT(sb_capacity(&sb)==0);
 	sb_release(&sb);
 	sb = SB("");
 	ASSERT(strcmp(sb_str(&sb),"")==0);
@@ -43,9 +45,26 @@ void test_sb_printf() {
 	sb_release(&sb);
 }
 
+void test_sb_insert() {
+	stringbuffer_t sb = SB("Hello, !");
+	sb_insert(&sb,6,&SB(" World"));
+	ASSERT(strcmp(sb_str(&sb),"Hello, World !")==0);
+	sb_release(&sb);
+}
+
+void test_sb_replace() {
+	stringbuffer_t sb = SB("Hello, toto!");
+	sb_replace(&sb,7,4,&SB("World "));
+	ASSERT(strcmp(sb_str(&sb),"Hello, World !")==0);
+	sb_release(&sb);
+}
+
+
 int main(int argc,char** argv) {
 	RUN_TEST(test_sb_str);
 	RUN_TEST(test_sb_append_char);
 	RUN_TEST(test_sb_printf);
+	RUN_TEST(test_sb_insert);
+	RUN_TEST(test_sb_replace);
 	return 0;
 }

@@ -21,6 +21,7 @@ const char* sb_str(stringbuffer_t* sb);
 void sb_append(stringbuffer_t* dest,const stringbuffer_t* src);
 void sb_append_char(stringbuffer_t* dest,const char c);
 void sb_insert(stringbuffer_t* dest,size_t pos,const stringbuffer_t* src);
+void sb_replace(stringbuffer_t* dest,size_t pos,size_t len,const stringbuffer_t* src);
 void sb_printf(stringbuffer_t* sb,const char* fmt,...);
 
 static inline char* sb_buffer(stringbuffer_t* sb) { return sb->buffer; }
