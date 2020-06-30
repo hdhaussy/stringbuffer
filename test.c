@@ -61,6 +61,15 @@ void test_sb_insert() {
 	sb_release(&sb);
 }
 
+void test_sb_insert_char() {
+	stringbuffer_t sb = SB("ello, orld !");
+	sb_insert_char(&sb,0,'H');
+	sb_insert_char(&sb,7,'W');
+	ASSERT(strcmp(sb_str(&sb),"Hello, World !")==0);
+	sb_release(&sb);
+}
+
+
 void test_sb_replace() {
 	stringbuffer_t sb = SB("Hello, toto!");
 	sb_replace(&sb,7,4,&SB("World "));
@@ -75,6 +84,7 @@ int main(int argc,char** argv) {
 	RUN_TEST(test_sb_append_char);
 	RUN_TEST(test_sb_printf);
 	RUN_TEST(test_sb_insert);
+	RUN_TEST(test_sb_insert_char);
 	RUN_TEST(test_sb_replace);
 	printf("%d tests passed, %d tests failed.\n",nbtests,nbfails);
 	return nbfails;

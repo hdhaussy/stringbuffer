@@ -23,6 +23,7 @@ void sb_append(stringbuffer_t* dest,const stringbuffer_t* src);
 void sb_append_str(stringbuffer_t* dest,const char* src);
 void sb_append_char(stringbuffer_t* dest,const char c);
 void sb_insert(stringbuffer_t* dest,size_t pos,const stringbuffer_t* src);
+void sb_insert_char(stringbuffer_t* dest,size_t pos,const char c);
 void sb_replace(stringbuffer_t* dest,size_t pos,size_t len,const stringbuffer_t* src);
 void sb_printf(stringbuffer_t* sb,const char* fmt,...);
 

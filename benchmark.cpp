@@ -42,13 +42,12 @@ void stdstring_insert_char()
 void sb_insert_char()
 {
   stringbuffer_t sb = SB_EMPTY;
-  stringbuffer_t sb2 = SB("*");
   int i;
   size_t len = 100000;
   for(i = 0; i < len; i++)
   {
     size_t pos = i / 2;
-    sb_insert(&sb,pos,&sb2);
+    sb_insert_char(&sb,pos,'*');
   }
   sb_release(&sb);
 }
