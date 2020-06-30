@@ -4,16 +4,16 @@
 #include <stdio.h>
 
 void sb_alloc(stringbuffer_t* sb,size_t size) {
-	char* data = NULL;
+	char* buffer = NULL;
 	if(sb->capacity==0) {
-		data = malloc(size);
-		if(data != NULL) memcpy(data,sb->buffer,sb->length);
+		buffer = malloc(size);
+		if(buffer != NULL) memcpy(buffer,sb->buffer,sb->length);
 	}
 	else {
-		data = realloc(sb->buffer,size);
+		buffer = realloc(sb->buffer,size);
 	}
-	if(data != NULL) {
-		sb->buffer = data;
+	if(buffer != NULL) {
+		sb->buffer = buffer;
 		sb->capacity = size;
 	}
 }
@@ -43,6 +43,14 @@ void sb_append(stringbuffer_t* dest,const stringbuffer_t* src) {
 	if(sb_ensure_capacity(dest,dest->length + src->length)) {
 		memcpy(dest->buffer + dest->length,src->buffer,src->length);
 		dest->length += src->length;
+	}
+}
+
+void sb_append_str(stringbuffer_t* dest,const char* src) {
+	size_t len = strlen(src);
+	if(sb_ensure_capacity(dest,dest->length + len)) {
+		memcpy(dest->buffer + dest->length,src,len);
+		dest->length += len;
 	}
 }
 

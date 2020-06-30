@@ -2,9 +2,11 @@
 #include <stdio.h>
 #include <assert.h>
 
+static int nbtests = 0;
 static int nbfails = 0;
 
 void run_test(const char* name,void (*test)()) {
+  nbtests++;
 	printf("Running %s...",name);
 	int failbefore = nbfails;
 	test();
@@ -27,6 +29,14 @@ void test_sb_str() {
 	sb_release(&sb);
 	sb = SB("");
 	ASSERT(strcmp(sb_str(&sb),"")==0);
+	sb_release(&sb);
+}
+
+void test_sb_append_str() {
+	stringbuffer_t sb = SB("Hello");
+	sb_append_str(&sb,", World");
+	sb_append_str(&sb," !");
+	ASSERT(strcmp(sb_str(&sb),"Hello, World !")==0);
 	sb_release(&sb);
 }
 
@@ -62,9 +72,11 @@ void test_sb_replace() {
 
 int main(int argc,char** argv) {
 	RUN_TEST(test_sb_str);
+	RUN_TEST(test_sb_append_str);
 	RUN_TEST(test_sb_append_char);
 	RUN_TEST(test_sb_printf);
 	RUN_TEST(test_sb_insert);
 	RUN_TEST(test_sb_replace);
+	printf("%d tests passed, %d tests failed.\n",nbtests,nbfails);
 	return 0;
 }
