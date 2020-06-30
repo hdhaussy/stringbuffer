@@ -6,11 +6,11 @@
 void sb_alloc(stringbuffer_t* sb,size_t size) {
 	char* buffer = NULL;
 	if(sb->capacity==0) {
-		buffer = malloc(size);
+		buffer = (char*) malloc(size);
 		if(buffer != NULL) memcpy(buffer,sb->buffer,sb->length);
 	}
 	else {
-		buffer = realloc(sb->buffer,size);
+		buffer = (char*) realloc(sb->buffer,size);
 	}
 	if(buffer != NULL) {
 		sb->buffer = buffer;

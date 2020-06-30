@@ -1,12 +1,17 @@
 CFLAGS += -g
-EXE=sb_test
 
-all: $(EXE)
+all: test benchmark
 
 clean:
-	rm $(EXE)
+	rm -f *.o test benchmark
 
-$(EXE): stringbuffer.c
+test: stringbuffer.o
 
-test: $(EXE)
-	./$(EXE)
+run_test: test
+	./test
+
+benchmark: stringbuffer.o
+
+run_benchmark: benchmark
+	./benchmark
+

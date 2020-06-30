@@ -49,8 +49,8 @@ void test_sb_append_char() {
 
 void test_sb_printf() {
 	stringbuffer_t sb = SB("H");
-	sb_printf(&sb,"ello, %s !","World");
-	ASSERT(strcmp(sb_str(&sb),"Hello, World !")==0);
+	sb_printf(&sb,"ello, %s %d !","World",123);
+	ASSERT(strcmp(sb_str(&sb),"Hello, World 123 !")==0);
 	sb_release(&sb);
 }
 

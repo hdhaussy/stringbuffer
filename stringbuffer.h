@@ -1,17 +1,18 @@
-#ifndef __include_sb_h
-#define __include_sb_h
+#ifndef __include_stringbuffer_h
+#define __include_stringbuffer_h
 
 #include <string.h>
 
 typedef struct stringbuffer stringbuffer_t;
+
 struct stringbuffer {
 	size_t capacity;
 	size_t length;
 	char* buffer;
 };
 
-#define SB(str) (stringbuffer_t) { .capacity=0, .length=sizeof(str)-1, .buffer=str }
-#define SB_EMPTY (stringbuffer_t) { 0 }
+#define SB(str) ((stringbuffer_t) { .capacity=0, .length=sizeof(str)-1, .buffer=(char*) (str) })
+#define SB_EMPTY ((stringbuffer_t) { 0 })
 
 void sb_alloc(stringbuffer_t* sb,size_t desired);
 void sb_release(stringbuffer_t* sb);
@@ -39,4 +40,4 @@ static inline char sb_ensure_capacity(stringbuffer_t* sb,size_t desired) {
 }
 static inline size_t sb_available(stringbuffer_t* sb) { if(sb->capacity>0) return sb->capacity - sb->length; else return 0; }
 
-#endif // #ifndef __include_sb_h
+#endif // #ifndef __include_stringbuffer_h
