@@ -35,8 +35,8 @@ struct stringbuffer {
 };
 
 #ifdef __cplusplus
-	#define SB(str) stringbuffer_t({ 0, sizeof(str)-1, (char*) (str) })
-	#define SB_EMPTY stringbuffer_t({ 0, 0, (char*) "" })
+	#define SB(str) { 0, sizeof(str)-1, (char*) (str) }
+	#define SB_EMPTY { 0, 0, (char*) "" }
 #else
 	#define SB(str) ((stringbuffer_t) { 0, sizeof(str)-1, (char*) (str) })
 	#define SB_EMPTY ((stringbuffer_t) { 0, 0, (char*) "" })
