@@ -61,6 +61,8 @@ void sb_insert_char(stringbuffer_t* dest,size_t pos,const char c);
 void sb_replace(stringbuffer_t* dest,size_t pos,size_t len,const stringbuffer_t* src);
 void sb_printf(stringbuffer_t* sb,const char* fmt,...);
 int sb_cmp(stringbuffer_t* sb1,stringbuffer_t* sb2);
+void sb_upper(stringbuffer_t* sb);
+void sb_lower(stringbuffer_t* sb);
 
 static inline char* sb_buffer(stringbuffer_t* sb) { return sb->buffer; }
 static inline size_t sb_length(stringbuffer_t* sb) { return sb->length; }

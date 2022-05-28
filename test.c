@@ -92,6 +92,20 @@ void test_sb_cmp() {
 	ASSERT(sb_cmp(&SB("ABC"),&SB("AB"))==1);
 }
 
+void test_sb_upper() {
+	stringbuffer_t sb = SB("speak loud !");
+	sb_upper(&sb);
+	ASSERT(strcmp(sb_str(&sb),"SPEAK LOUD !")==0);
+	sb_release(&sb);
+}
+
+void test_sb_lower() {
+	stringbuffer_t sb = SB("BE QUIET !");
+	sb_lower(&sb);
+	ASSERT(strcmp(sb_str(&sb),"be quiet !")==0);
+	sb_release(&sb);
+}
+
 int main(int argc,char** argv) {
 	RUN_TEST(test_sb_str);
 	RUN_TEST(test_sb_append_str);
@@ -101,6 +115,8 @@ int main(int argc,char** argv) {
 	RUN_TEST(test_sb_insert_char);
 	RUN_TEST(test_sb_replace);
 	RUN_TEST(test_sb_cmp);
+	RUN_TEST(test_sb_upper);
+	RUN_TEST(test_sb_lower);
 	printf("%d tests passed, %d tests failed.\n",nbtests,nbfails);
 	return nbfails;
 }

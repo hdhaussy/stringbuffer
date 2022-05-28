@@ -114,3 +114,17 @@ int sb_cmp(stringbuffer_t* sb1,stringbuffer_t* sb2) {
 	else
 		return sb1->buffer[i] < sb2->buffer[i] ? -1 : 1;
 }
+
+void sb_upper(stringbuffer_t* sb) {
+	if(sb->capacity == 0) sb_alloc(sb,sb->length);
+	for(size_t i = 0; i < sb->length; i++) {
+		if(sb->buffer[i] >= 'a' && sb->buffer[i] <= 'z') sb->buffer[i] += 'A' - 'a';
+	}
+}
+
+void sb_lower(stringbuffer_t* sb) {
+	if(sb->capacity == 0) sb_alloc(sb,sb->length);
+	for(size_t i = 0; i < sb->length; i++) {
+		if(sb->buffer[i] >= 'A' && sb->buffer[i] <= 'Z') sb->buffer[i] += 'a' - 'A';
+	}
+}
