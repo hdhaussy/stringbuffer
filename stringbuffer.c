@@ -61,7 +61,7 @@ void sb_append_char(stringbuffer_t* dest,const char c) {
 }
 
 void sb_insert(stringbuffer_t* dest,size_t pos,const stringbuffer_t* src) {
-	if(pos >= dest->length) return sb_append(dest,src);
+	if(pos >= dest->length) sb_append(dest,src);
 	if(sb_ensure_capacity(dest,dest->length + src->length)) {
 		memmove(dest->buffer + pos + src->length, dest->buffer + pos, dest->length - pos);
 		memcpy(dest->buffer + pos,src->buffer,src->length);
@@ -70,7 +70,7 @@ void sb_insert(stringbuffer_t* dest,size_t pos,const stringbuffer_t* src) {
 }
 
 void sb_insert_char(stringbuffer_t* dest,size_t pos,const char c) {
-	if(pos >= dest->length) return sb_append_char(dest,c);
+	if(pos >= dest->length) sb_append_char(dest,c);
 	if(sb_ensure_capacity(dest,dest->length + 1)) {
 		memmove(dest->buffer + pos + 1, dest->buffer + pos, dest->length - pos);
 		dest->buffer[pos] = c;
