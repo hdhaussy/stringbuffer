@@ -5,7 +5,7 @@ static int nbtests = 0;
 static int nbfails = 0;
 
 void run_test(const char* name,void (*test)()) {
-  nbtests++;
+	nbtests++;
 	printf("Running %s...",name);
 	int failbefore = nbfails;
 	test();
@@ -18,15 +18,18 @@ void assert_fail(const char* file,int line,const char* test) {
 }
 
 #define RUN_TEST(test) run_test(#test,test)
-#define ASSERT(expr) if(!(expr)) assert_fail(__FILE__,__LINE__,#expr);
+#define ASSERT(expr) if(!(expr))  { assert_fail(__FILE__,__LINE__,#expr); return; }
 
 void test_sb_str() {
-	stringbuffer_t sb = SB("abcdefgh");
+	stringbuffer_t sb = SB("Hello");
 	ASSERT(sb_capacity(&sb)==0);
-	ASSERT(strcmp(sb_str(&sb),"abcdefgh")==0);
+	ASSERT(strcmp(sb_str(&sb),"Hello")==0);
 	ASSERT(sb_capacity(&sb)==0);
 	sb_release(&sb);
 	sb = SB("");
+	ASSERT(strcmp(sb_str(&sb),"")==0);
+	sb_release(&sb);
+	sb = SB_EMPTY;
 	ASSERT(strcmp(sb_str(&sb),"")==0);
 	sb_release(&sb);
 }
@@ -40,35 +43,36 @@ void test_sb_append_str() {
 }
 
 void test_sb_append_char() {
-	stringbuffer_t sb = SB("ab");
-	sb_append_char(&sb,'c');
+	stringbuffer_t sb = SB("Wo");
+	sb_append_char(&sb,'r');
+	sb_append_char(&sb,'l');
 	sb_append_char(&sb,'d');
-	ASSERT(strcmp(sb_str(&sb),"abcd")==0);
+	ASSERT(strcmp(sb_str(&sb),"World")==0);
 	sb_release(&sb);
 }
 
 void test_sb_printf() {
-	stringbuffer_t sb = SB("H");
-	sb_printf(&sb,"ello, %s %d !","World",123);
-	ASSERT(strcmp(sb_str(&sb),"Hello, World 123 !")==0);
+	stringbuffer_t sb = SB("The response");
+	sb_printf(&sb," %s %d !","is",42);
+	ASSERT(strcmp(sb_str(&sb),"The response is 42 !")==0);
 	sb_release(&sb);
 }
 
 void test_sb_insert() {
-	stringbuffer_t sb = SB("Hello, !");
-	sb_insert(&sb,6,&SB(" World"));
-	ASSERT(strcmp(sb_str(&sb),"Hello, World !")==0);
+	stringbuffer_t sb = SB("Roll");
+	sb_insert(&sb,0,&SB("Rock"));
+	sb_insert(&sb,4,&SB("'n'"));
+	ASSERT(strcmp(sb_str(&sb),"Rock'n'Roll")==0);
 	sb_release(&sb);
 }
 
 void test_sb_insert_char() {
-	stringbuffer_t sb = SB("ello, orld !");
-	sb_insert_char(&sb,0,'H');
-	sb_insert_char(&sb,7,'W');
-	ASSERT(strcmp(sb_str(&sb),"Hello, World !")==0);
+	stringbuffer_t sb = SB("Hell here !");
+	sb_insert_char(&sb,4,'o');
+	sb_insert_char(&sb,6,'t');
+	ASSERT(strcmp(sb_str(&sb),"Hello there !")==0);
 	sb_release(&sb);
 }
-
 
 void test_sb_replace() {
 	stringbuffer_t sb = SB("Hello, toto!");
@@ -77,6 +81,16 @@ void test_sb_replace() {
 	sb_release(&sb);
 }
 
+void test_sb_cmp() {
+	ASSERT(sb_cmp(&SB_EMPTY,&SB(""))==0);
+	ASSERT(sb_cmp(&SB_EMPTY,&SB("ABC"))==-1);
+	ASSERT(sb_cmp(&SB("ABC"),&SB_EMPTY)==1);
+	ASSERT(sb_cmp(&SB("ABC"),&SB("ABC"))==0);
+	ASSERT(sb_cmp(&SB("ABC"),&SB("DEF"))==-1);
+	ASSERT(sb_cmp(&SB("DEF"),&SB("ABC"))==1);
+	ASSERT(sb_cmp(&SB("AB"),&SB("ABC"))==-1);
+	ASSERT(sb_cmp(&SB("ABC"),&SB("AB"))==1);
+}
 
 int main(int argc,char** argv) {
 	RUN_TEST(test_sb_str);
@@ -86,6 +100,7 @@ int main(int argc,char** argv) {
 	RUN_TEST(test_sb_insert);
 	RUN_TEST(test_sb_insert_char);
 	RUN_TEST(test_sb_replace);
+	RUN_TEST(test_sb_cmp);
 	printf("%d tests passed, %d tests failed.\n",nbtests,nbfails);
 	return nbfails;
 }

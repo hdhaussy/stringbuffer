@@ -100,3 +100,17 @@ void sb_printf(stringbuffer_t* sb,const char* fmt,...) {
 	}
 	if(size>0) sb->length += size;
 }
+
+int sb_cmp(stringbuffer_t* sb1,stringbuffer_t* sb2) {
+	size_t i = 0;
+	size_t imax = sb1->length < sb2->length ? sb1->length : sb2->length;
+	while(i < imax && sb1->buffer[i] == sb2->buffer[i]) i++;
+	if(i == sb1->length && i == sb2->length)
+		return 0;
+	else if(i == sb1->length)
+		return -1;
+	else if(i == sb2->length)
+		return 1;
+	else
+		return sb1->buffer[i] < sb2->buffer[i] ? -1 : 1;
+}

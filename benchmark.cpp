@@ -1,12 +1,15 @@
 #include <string>
 #include <iostream>
+
 extern "C" {
   #include "stringbuffer.h"
 }
 
+using namespace std;
+
 void stdstring_append_char()
 {
-  std::string str = "";
+  string str = "";
   int i;
   size_t len = 1000000;
   for(i = 0; i < len; i++)
@@ -29,7 +32,7 @@ void sb_append_char()
 
 void stdstring_insert_char()
 {
-  std::string str = "";
+  string str = "";
   int i;
   size_t len = 100000;
   for(i = 0; i < len; i++)
@@ -54,8 +57,8 @@ void sb_insert_char()
 
 void stdstring_insert_str()
 {
-  std::string str = "";
-  std::string str2("hello");
+  string str = "";
+  string str2("hello");
   int i;
   size_t len = 10000;
   for(i = 0; i < len; i++)
@@ -93,7 +96,7 @@ double execute_test(testdef* def)
   def->test();
   end = clock();
   t = (double)(end - begin) / CLOCKS_PER_SEC * 1000;
-  std::cout<<"executed "<<def->name<<" in "<<t<<" ms"<<std::endl;
+  cout<<"executed "<<def->name<<" in "<<t<<" ms"<<endl;
   return t;
 }
 
@@ -101,7 +104,7 @@ void benchmark(testdef* def1,testdef* def2)
 {
   double t1 = execute_test(def1);
   double t2 = execute_test(def2);
-  std::cout<<def2->name<<"/"<<def1->name<<" = "<<t1/t2*100<<"%"<<std::endl<<std::endl;
+  cout<<def2->name<<"/"<<def1->name<<" = "<<t1/t2*100<<"%"<<endl<<endl;
 }
 
 int main(int argc, char** argv) {
