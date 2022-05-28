@@ -34,8 +34,13 @@ struct stringbuffer {
 	char* buffer;
 };
 
-#define SB(str) ((stringbuffer_t) { 0, sizeof(str)-1, (char*) (str) })
-#define SB_EMPTY ((stringbuffer_t) { 0, 0, (char*) "" })
+#ifdef __cplusplus
+	#define SB(str) stringbuffer_t({ 0, sizeof(str)-1, (char*) (str) })
+	#define SB_EMPTY stringbuffer_t({ 0, 0, (char*) "" })
+#else
+	#define SB(str) ((stringbuffer_t) { 0, sizeof(str)-1, (char*) (str) })
+	#define SB_EMPTY ((stringbuffer_t) { 0, 0, (char*) "" })
+#endif
 
 /**
  * Allocate or Re-allocate the internal buffer of the stringbuffer
