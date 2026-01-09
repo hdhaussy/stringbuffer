@@ -20,7 +20,7 @@ void stdstring_append_char()
 
 void sb_append_char()
 {
-  stringbuffer_t sb = SB_EMPTY;
+  stringbuffer_t sb = SB("");
   int i;
   size_t len = 1000000;
   for(i = 0; i < len; i++)
@@ -44,7 +44,7 @@ void stdstring_insert_char()
 
 void sb_insert_char()
 {
-  stringbuffer_t sb = SB_EMPTY;
+  stringbuffer_t sb = SB("");
   int i;
   size_t len = 100000;
   for(i = 0; i < len; i++)
@@ -70,7 +70,7 @@ void stdstring_insert_str()
 
 void sb_insert_str()
 {
-  stringbuffer_t sb = SB_EMPTY;
+  stringbuffer_t sb = SB("");
   stringbuffer_t sb2 = SB("hello");
   int i;
   size_t len = 10000;

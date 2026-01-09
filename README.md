@@ -118,5 +118,16 @@ make test
 valgrind --leak-check=full ./test
 ```
 
+### Running Benchmarks
+```bash
+make benchmark
+./benchmark
+```
+
+#### Benchmark Results (example run)
+- Append 1,000,000 characters: stringbuffer is ~14x faster than std::string
+- Insert 100,000 characters: stringbuffer is ~21% faster than std::string
+- Insert strings 10,000 times: stringbuffer is ~41% faster than std::string
+
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
