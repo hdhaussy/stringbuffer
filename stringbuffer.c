@@ -20,7 +20,7 @@ void sb_alloc(stringbuffer_t* sb,size_t size) {
 
 void sb_release(stringbuffer_t* sb) {
 	if(sb->capacity) free(sb->buffer);
-	*sb = SB_EMPTY;
+	*sb = (stringbuffer_t){0,0,(char*)""};
 }
 
 void sb_copy(stringbuffer_t* dest,const stringbuffer_t* src) {
@@ -127,4 +127,26 @@ void sb_lower(stringbuffer_t* sb) {
 	for(size_t i = 0; i < sb->length; i++) {
 		if(sb->buffer[i] >= 'A' && sb->buffer[i] <= 'Z') sb->buffer[i] += 'a' - 'A';
 	}
+}
+
+stringbuffer_t sb_substr(stringbuffer_t* sb, size_t start, size_t len) {
+	stringbuffer_t result = SB("");
+	if (start >= sb->length || len == 0) return result;
+	if (start + len > sb->length) len = sb->length - start;
+	sb_ensure_capacity(&result, len);
+	result.length = len;
+	memcpy(result.buffer, sb->buffer + start, len);
+	return result;
+}
+
+size_t sb_find(stringbuffer_t* sb, stringbuffer_t* substr) {
+	size_t substr_len = substr->length;
+	if (substr_len == 0) return 0;
+	if (substr_len > sb->length) return -1;
+	for (size_t i = 0; i <= sb->length - substr_len; i++) {
+		if (memcmp(sb->buffer + i, substr->buffer, substr_len) == 0) {
+			return i;
+		}
+	}
+	return -1;
 }
