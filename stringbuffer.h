@@ -128,7 +128,7 @@ void sb_printf(stringbuffer_t* sb,const char* fmt,...);
  * @param sb2 the second stringbuffer
  * @return a negative integer if sb1 < sb2, 0 if equal, positive if sb1 > sb2
  */
-int sb_cmp(stringbuffer_t* sb1,stringbuffer_t* sb2);
+int sb_cmp(const stringbuffer_t* sb1,const stringbuffer_t* sb2);
 
 /**
  * Converts all characters in the stringbuffer to uppercase
@@ -146,10 +146,10 @@ void sb_lower(stringbuffer_t* sb);
 static inline char* sb_buffer(stringbuffer_t* sb) { return sb->buffer; }
 
 /** Returns the current length of the stringbuffer's content */
-static inline size_t sb_length(stringbuffer_t* sb) { return sb->length; }
+static inline size_t sb_length(const stringbuffer_t* sb) { return sb->length; }
 
 /** Returns the current capacity of the stringbuffer's buffer */
-static inline size_t sb_capacity(stringbuffer_t* sb) { return sb->capacity; }
+static inline size_t sb_capacity(const stringbuffer_t* sb) { return sb->capacity; }
 
 /** Ensures the buffer capacity is at least the desired size, reallocating if necessary */
 static inline char sb_ensure_capacity(stringbuffer_t* sb,size_t desired) {
@@ -163,7 +163,7 @@ static inline char sb_ensure_capacity(stringbuffer_t* sb,size_t desired) {
 }
 
 /** Returns the available space in the buffer (capacity - length) */
-static inline size_t sb_available(stringbuffer_t* sb) { return sb->capacity>0?sb->capacity-sb->length:0; }
+static inline size_t sb_available(const stringbuffer_t* sb) { return sb->capacity>0?sb->capacity-sb->length:0; }
 
 /**
  * Extract a substring from the stringbuffer
@@ -172,7 +172,16 @@ static inline size_t sb_available(stringbuffer_t* sb) { return sb->capacity>0?sb
  * @param len the length of the substring
  * @return a new stringbuffer containing the substring
  */
-stringbuffer_t sb_substr(stringbuffer_t* sb, size_t start, size_t len);
+stringbuffer_t sb_substr(const stringbuffer_t* sb, size_t start, size_t len);
+
+/**
+ * Create a view into the stringbuffer without copying
+ * @param sb the source stringbuffer
+ * @param start the starting index
+ * @param len the length of the view
+ * @return a stringbuffer view (no memory allocation)
+ */
+stringbuffer_t sb_view(const stringbuffer_t* sb, size_t start, size_t len);
 
 /**
  * Find the first occurrence of a substring in the stringbuffer
@@ -180,6 +189,6 @@ stringbuffer_t sb_substr(stringbuffer_t* sb, size_t start, size_t len);
  * @param substr the stringbuffer containing the substring to find
  * @return the index of the first occurrence, or -1 if not found
  */
-size_t sb_find(stringbuffer_t* sb, stringbuffer_t* substr);
+size_t sb_find(const stringbuffer_t* sb, const stringbuffer_t* substr);
 
 #endif // #ifndef __include_stringbuffer_h

@@ -194,6 +194,14 @@ void test_sb_find() {
 	ASSERT(pos == 0);
 }
 
+void test_sb_view() {
+	stringbuffer_t sb = SB("Hello World");
+	stringbuffer_t view = sb_view(&sb, 6, 5);
+	ASSERT(sb_cmp(&view, &SB("World")) == 0);
+	// View shares the buffer, no allocation
+	ASSERT(sb_capacity(&view) == 0);
+}
+
 int main(int argc,char** argv) {
 	RUN_TEST(test_sb_str);
 	RUN_TEST(test_sb_append_str);
@@ -216,6 +224,7 @@ int main(int argc,char** argv) {
 	RUN_TEST(test_sb_available);
 	RUN_TEST(test_sb_substr);
 	RUN_TEST(test_sb_find);
+	RUN_TEST(test_sb_view);
 	printf("%d tests passed, %d tests failed.\n",nbtests,nbfails);
 	return nbfails;
 }

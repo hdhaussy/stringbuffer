@@ -20,7 +20,7 @@ void sb_alloc(stringbuffer_t* sb,size_t size) {
 
 void sb_release(stringbuffer_t* sb) {
 	if(sb->capacity) free(sb->buffer);
-	*sb = (stringbuffer_t){0,0,(char*)""};
+	*sb = SB("");
 }
 
 void sb_copy(stringbuffer_t* dest,const stringbuffer_t* src) {
@@ -101,7 +101,7 @@ void sb_printf(stringbuffer_t* sb,const char* fmt,...) {
 	if(size>0) sb->length += size;
 }
 
-int sb_cmp(stringbuffer_t* sb1,stringbuffer_t* sb2) {
+int sb_cmp(const stringbuffer_t* sb1,const stringbuffer_t* sb2) {
 	size_t i = 0;
 	size_t imax = sb1->length < sb2->length ? sb1->length : sb2->length;
 	while(i < imax && sb1->buffer[i] == sb2->buffer[i]) i++;
@@ -129,7 +129,7 @@ void sb_lower(stringbuffer_t* sb) {
 	}
 }
 
-stringbuffer_t sb_substr(stringbuffer_t* sb, size_t start, size_t len) {
+stringbuffer_t sb_substr(const stringbuffer_t* sb, size_t start, size_t len) {
 	stringbuffer_t result = SB("");
 	if (start >= sb->length || len == 0) return result;
 	if (start + len > sb->length) len = sb->length - start;
@@ -139,7 +139,13 @@ stringbuffer_t sb_substr(stringbuffer_t* sb, size_t start, size_t len) {
 	return result;
 }
 
-size_t sb_find(stringbuffer_t* sb, stringbuffer_t* substr) {
+stringbuffer_t sb_view(const stringbuffer_t* sb, size_t start, size_t len) {
+	if (start >= sb->length || len == 0) return SB("");
+	if (start + len > sb->length) len = sb->length - start;
+	return (stringbuffer_t) {0, len, sb->buffer + start};
+}
+
+size_t sb_find(const stringbuffer_t* sb, const stringbuffer_t* substr) {
 	size_t substr_len = substr->length;
 	if (substr_len == 0) return 0;
 	if (substr_len > sb->length) return -1;
