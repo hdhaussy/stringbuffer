@@ -111,17 +111,18 @@ sb_release(&sb);
 - `void sb_printf(stringbuffer_t* sb, const char* fmt, ...)`: Append formatted string
 
 ### Utility Functions
-- `stringbuffer_t sb_substr(stringbuffer_t* sb, size_t start, size_t len)`: Extract substring
-- `size_t sb_find(stringbuffer_t* sb, stringbuffer_t* substr)`: Find substring position
-- `int sb_cmp(stringbuffer_t* sb1, stringbuffer_t* sb2)`: Compare stringbuffers
+- `stringbuffer_t sb_substr(const stringbuffer_t* sb, size_t start, size_t len)`: Extract substring
+- `stringbuffer_t sb_view(const stringbuffer_t* sb, size_t start, size_t len)`: Create a view into the stringbuffer without copying
+- `size_t sb_find(const stringbuffer_t* sb, const stringbuffer_t* substr)`: Find substring position
+- `int sb_cmp(const stringbuffer_t* sb1, const stringbuffer_t* sb2)`: Compare stringbuffers
 - `void sb_upper(stringbuffer_t* sb)`: Convert to uppercase
 - `void sb_lower(stringbuffer_t* sb)`: Convert to lowercase
 
 ### Accessor Functions
 - `char* sb_buffer(stringbuffer_t* sb)`: Get buffer pointer
-- `size_t sb_length(stringbuffer_t* sb)`: Get string length
-- `size_t sb_capacity(stringbuffer_t* sb)`: Get buffer capacity
-- `size_t sb_available(stringbuffer_t* sb)`: Get available space
+- `size_t sb_length(const stringbuffer_t* sb)`: Get string length
+- `size_t sb_capacity(const stringbuffer_t* sb)`: Get buffer capacity
+- `size_t sb_available(const stringbuffer_t* sb)`: Get available space
 
 ## Building and Testing
 
