@@ -4,6 +4,28 @@ A simple, easy to use string library for C.
 ## Description
 Stringbuffer is a lightweight C library for dynamic string manipulation. It provides an efficient way to build and modify strings with automatic memory management.
 
+## Data Structure
+The core data structure is `stringbuffer_t`:
+```C
+typedef struct stringbuffer {
+    size_t capacity;  // Total buffer size in bytes
+    size_t length;    // Current string length in bytes
+    char* buffer;     // Pointer to the character buffer
+} stringbuffer_t;
+```
+- `capacity`: The allocated buffer size. 0 for string literals (no allocation).
+- `length`: The number of characters in the string (excluding null terminator).
+- `buffer`: Pointer to the character array. May point to a string literal or dynamically allocated memory.
+
+## Design Choices
+- **Lazy Allocation**: The `SB` macro initializes stringbuffers without allocating memory, pointing to string literals. Memory is only allocated when the string is modified, reducing overhead for read-only operations.
+- **Exponential Growth**: Buffer capacity doubles when reallocation is needed, balancing memory usage and reallocation frequency.
+- **C-Style API**: Functions take pointers to stringbuffer_t structures, following C conventions and allowing efficient pass-by-reference.
+- **Inline Functions**: Accessor functions like `sb_length()` are inline for performance, avoiding function call overhead.
+- **Lazy Null-Termination**: The buffer is not null-terminated during operations; the null character is only added when `sb_str()` is called, optimizing performance for internal manipulations.
+- **No Exceptions**: Pure C implementation with return codes or direct error handling, suitable for systems without exception support.
+- **Minimal Dependencies**: Only depends on standard C libraries (stdlib.h, string.h), making it portable.
+
 ## Features
 - Dynamic string building with automatic reallocation
 - Efficient append, insert, replace operations
