@@ -71,7 +71,7 @@ size_t cap = sb_capacity(&sb);
 ### Advanced Operations
 ```C
 // Insert at position
-sb_insert_str(&sb, 5, &SB(" inserted "));
+sb_insert(&sb, 5, &SB(" inserted "));
 
 // Replace substring
 sb_replace(&sb, 0, 5, &SB("Hi"));
